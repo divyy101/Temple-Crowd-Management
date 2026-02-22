@@ -44,7 +44,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '06:00', close: '21:00', aarti: ['07:00', '12:00', '19:00'] },
     averageDailyVisitors: 25000,
     peakCapacity: 8000,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Somnath_mandir_%28cropped%29.jpg/1280px-Somnath_mandir_%28cropped%29.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1280&q=80',
     websiteUrl: 'https://somnath.org',
     contactNumber: '+91-2876-231042',
     zones: [
@@ -75,7 +75,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '06:30', close: '21:30', aarti: ['06:30', '10:30', '17:30', '19:30'] },
     averageDailyVisitors: 20000,
     peakCapacity: 6000,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Dwarkadhish_Temple.jpg/1024px-Dwarkadhish_Temple.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1539650116574-75c0c6d636dc?auto=format&fit=crop&w=1024&q=80',
     websiteUrl: 'https://dwarkadhish.org',
     contactNumber: '+91-2892-234200',
     zones: [
@@ -106,7 +106,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '07:00', close: '20:30', aarti: ['07:00', '12:00', '19:30'] },
     averageDailyVisitors: 15000,
     peakCapacity: 5000,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Ambaji_Temple_main_front_view.JPG/800px-Ambaji_Temple_main_front_view.JPG',
+    imageUrl: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80',
     websiteUrl: 'https://ambajitemple.in',
     contactNumber: '+91-2749-262240',
     zones: [
@@ -137,7 +137,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '05:00', close: '20:00', aarti: ['05:30', '12:00', '18:30'] },
     averageDailyVisitors: 12000,
     peakCapacity: 4000,
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Pavagadh_hill.jpg/1024px-Pavagadh_hill.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1605106901227-991bd663255c?auto=format&fit=crop&w=1024&q=80',
     websiteUrl: 'https://gujarattourism.com/pavagadh',
     contactNumber: '+91-2676-234456',
     zones: [

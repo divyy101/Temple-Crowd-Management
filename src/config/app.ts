@@ -19,7 +19,7 @@ export const TEMPLES = {
     location: 'Veraval, Gir Somnath',
     coordinates: { lat: 20.8880, lng: 70.4013 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'museum'],
-    image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&h=600&fit=crop&crop=temple',
+    image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&h=600&q=80',
   },
   dwarka: {
     id: 'dwarka',
@@ -27,7 +27,7 @@ export const TEMPLES = {
     location: 'Dwarka, Devbhumi Dwarka',
     coordinates: { lat: 22.2395, lng: 68.9685 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'gomtiGhat'],
-    image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d636dc?w=800&h=600&fit=crop&crop=temple',
+    image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d636dc?auto=format&fit=crop&w=800&h=600&q=80',
   },
   ambaji: {
     id: 'ambaji',
@@ -35,7 +35,7 @@ export const TEMPLES = {
     location: 'Ambaji, Banaskantha',
     coordinates: { lat: 24.3309, lng: 72.8431 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'gabbarHill'],
-    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&h=600&fit=crop&crop=temple',
+    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&h=600&q=80',
   },
   pavagadh: {
     id: 'pavagadh',
@@ -43,7 +43,7 @@ export const TEMPLES = {
     location: 'Pavagadh, Panchmahal',
     coordinates: { lat: 22.4839, lng: 73.5316 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'ropeway'],
-    image: 'https://images.unsplash.com/photo-1605106901227-991bd663255c?w=800&h=600&fit=crop&crop=temple',
+    image: 'https://images.unsplash.com/photo-1605106901227-991bd663255c?auto=format&fit=crop&w=800&h=600&q=80',
   },
 } as const;
 
