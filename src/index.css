@@ -3559,6 +3559,62 @@ html {
    CUSTOM COMPONENTS — Temple Insight 360 Premium UI
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL PREMIUM UI ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+body {
+  background: linear-gradient(135deg, #f8f9ff 0%, #e2e8f0 100%);
+  background-attachment: fixed;
+  color: #1e293b;
+}
+
+.dark body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #000000 100%);
+  color: #f8fafc;
+}
+
+/* Glassmorphic Cards */
+[data-slot="card"] {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+[data-slot="card"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+}
+
+.dark [data-slot="card"] {
+  background: rgba(30, 41, 59, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark [data-slot="card"]:hover {
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Base Buttons */
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button:active {
+  transform: scale(0.97) !important;
+}
+
+/* Beautiful custom selections */
+::selection {
+  background: rgba(124, 58, 237, 0.3);
+  color: inherit;
+}
+
 /* ── Role Selector Page ── */
 .role-selector-wrapper {
   position: relative;

@@ -36,18 +36,28 @@ const Dashboard: React.FC<DashboardProps> = ({ templeData, selectedTemple, onTem
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <Card className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <h2>Welcome to Gujarat's Sacred Temples</h2>
-            <MapPin className="h-5 w-5" />
+      <Card className="bg-gradient-to-br from-orange-500 via-red-500 to-rose-600 text-white border-0 animate-in fade-in slide-in-from-top-4 duration-500 shadow-xl shadow-orange-500/20 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-48 h-48 bg-orange-300 opacity-20 rounded-full blur-2xl"></div>
+        
+        <CardContent className="p-8 relative z-10">
+          <div className="flex items-center gap-3 mb-3">
+            <h2 className="text-3xl font-bold tracking-tight text-white drop-shadow-md">Welcome to Gujarat's Sacred Temples</h2>
+            <MapPin className="h-7 w-7 text-orange-200 drop-shadow" />
           </div>
-          <p className="text-orange-100 mb-2">Currently viewing: <strong>{getTempleTranslation(language, selectedTemple)}</strong></p>
-          <p className="text-orange-100 mb-4">Your spiritual journey companion for a blessed darshan experience</p>
+          <p className="text-orange-50 mb-4 text-lg font-medium flex items-center gap-2">
+            Currently viewing: 
+            <strong className="px-3 py-1 bg-white/20 border border-white/30 rounded-lg backdrop-blur-md shadow-sm">
+              {getTempleTranslation(language, selectedTemple)}
+            </strong>
+          </p>
+          <p className="text-red-100 mb-6 max-w-xl text-md opacity-90">Your spiritual journey companion for a blessed darshan experience</p>
+          
           <Button 
             onClick={onBookDarshan}
             size="lg"
-            className="bg-white text-orange-600 hover:bg-orange-50"
+            className="bg-white text-red-600 hover:bg-orange-50 hover:scale-105 transition-all shadow-lg font-bold"
           >
             <Calendar className="mr-2 h-5 w-5" />
             Book Darshan Token
