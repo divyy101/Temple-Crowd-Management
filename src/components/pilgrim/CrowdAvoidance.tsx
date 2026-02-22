@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TrendingDown, Clock, Calendar, Users, Sun, Moon, Star, AlertCircle } from 'lucide-react';
+import { TrendingDown, Clock, Calendar, Users, Sun, Moon, Star, AlertCircle, BarChart3, Sparkles } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Progress } from '../ui/progress';
+import { getHourlyForecast, getWeeklyForecast, TEMPLE_METADATA } from '../../services/templeDataService';
 
 import { Language } from '../../utils/translations';
 
@@ -14,273 +15,238 @@ interface CrowdAvoidanceProps {
   language?: Language;
 }
 
-const CrowdAvoidance: React.FC<CrowdAvoidanceProps> = ({ templeData, selectedTemple, language = 'en' }) => {
-  const [selectedDay, setSelectedDay] = useState('today');
-  
+const CrowdAvoidance: React.FC<CrowdAvoidanceProps> = ({
+  templeData,
+  selectedTemple,
+  language = 'en'
+}) => {
+  const [view, setView] = useState<'hourly' | 'weekly'>('hourly');
   const currentTemple = templeData[selectedTemple];
+  const meta = TEMPLE_METADATA[selectedTemple];
 
-  // Crowd patterns and recommendations
-  const crowdPatterns = {
-    somnath: {
-      peakHours: ['6:00-8:00', '18:00-20:00'],
-      lowHours: ['10:00-12:00', '14:00-16:00'],
-      festivalDays: ['Maha Shivratri', 'Shravan Monday', 'Kartik Purnima'],
-      bestVisitDays: ['Tuesday', 'Wednesday', 'Thursday'],
-      avoidDays: ['Monday', 'Saturday', 'Sunday'],
-      seasonalTrends: {
-        winter: 85, // High crowd
-        summer: 45, // Low crowd
-        monsoon: 30 // Lowest crowd
-      }
-    },
-    dwarka: {
-      peakHours: ['5:00-7:00', '17:30-19:30'],
-      lowHours: ['9:00-11:00', '13:00-15:00'],
-      festivalDays: ['Janmashtami', 'Diwali', 'Holi'],
-      bestVisitDays: ['Tuesday', 'Thursday', 'Friday'],
-      avoidDays: ['Sunday', 'Monday', 'Saturday'],
-      seasonalTrends: {
-        winter: 80,
-        summer: 40,
-        monsoon: 25
-      }
-    },
-    ambaji: {
-      peakHours: ['5:30-7:30', '18:00-20:00'],
-      lowHours: ['10:00-12:00', '15:00-17:00'],
-      festivalDays: ['Navratri', 'Ambaji Fair', 'Chaitra Navratri'],
-      bestVisitDays: ['Wednesday', 'Thursday', 'Friday'],
-      avoidDays: ['Saturday', 'Sunday', 'Tuesday'],
-      seasonalTrends: {
-        winter: 75,
-        summer: 50,
-        monsoon: 35
-      }
-    },
-    pavagadh: {
-      peakHours: ['6:00-8:00', '16:00-18:00'],
-      lowHours: ['11:00-13:00', '14:00-15:00'],
-      festivalDays: ['Navratri', 'Mahashivratri', 'Dussehra'],
-      bestVisitDays: ['Monday', 'Wednesday', 'Thursday'],
-      avoidDays: ['Saturday', 'Sunday', 'Friday'],
-      seasonalTrends: {
-        winter: 70,
-        summer: 35,
-        monsoon: 20
-      }
-    }
+  // Get real computed forecast data
+  const hourlyData = getHourlyForecast(selectedTemple);
+  const weeklyData = getWeeklyForecast(selectedTemple);
+
+  // Find best visiting time
+  const bestHourly = hourlyData.reduce((best, curr) => curr.crowd < best.crowd ? curr : best, hourlyData[0]);
+  const bestWeekly = weeklyData.reduce((best, curr) => curr.crowd < best.crowd ? curr : best, weeklyData[0]);
+
+  const currentHour = new Date().getHours();
+
+  const getBarColor = (crowd: number) => {
+    if (crowd > 80) return 'bg-red-500';
+    if (crowd > 60) return 'bg-orange-400';
+    if (crowd > 35) return 'bg-amber-400';
+    return 'bg-emerald-500';
   };
 
-  const currentPattern = crowdPatterns[selectedTemple];
-
-  // Weekly crowd prediction
-  const weeklyForecast = [
-    { day: 'Monday', crowd: 65, recommendation: 'Avoid', reason: 'Weekend spillover effect' },
-    { day: 'Tuesday', crowd: 35, recommendation: 'Best', reason: 'Typically low crowd' },
-    { day: 'Wednesday', crowd: 40, recommendation: 'Good', reason: 'Mid-week advantage' },
-    { day: 'Thursday', crowd: 38, recommendation: 'Best', reason: 'Optimal visiting day' },
-    { day: 'Friday', crowd: 55, recommendation: 'Moderate', reason: 'Weekend preparation' },
-    { day: 'Saturday', crowd: 85, recommendation: 'Avoid', reason: 'Weekend rush' },
-    { day: 'Sunday', crowd: 90, recommendation: 'Avoid', reason: 'Peak weekend day' }
-  ];
-
-  // Hourly forecast for today
-  const hourlyForecast = [
-    { time: '05:00', crowd: 15, status: 'Low' },
-    { time: '06:00', crowd: 75, status: 'High' },
-    { time: '07:00', crowd: 90, status: 'Peak' },
-    { time: '08:00', crowd: 85, status: 'High' },
-    { time: '09:00', crowd: 60, status: 'Moderate' },
-    { time: '10:00', crowd: 35, status: 'Low' },
-    { time: '11:00', crowd: 30, status: 'Low' },
-    { time: '12:00', crowd: 40, status: 'Moderate' },
-    { time: '13:00', crowd: 25, status: 'Low' },
-    { time: '14:00', crowd: 30, status: 'Low' },
-    { time: '15:00', crowd: 35, status: 'Low' },
-    { time: '16:00', crowd: 50, status: 'Moderate' },
-    { time: '17:00', crowd: 70, status: 'High' },
-    { time: '18:00', crowd: 85, status: 'High' },
-    { time: '19:00', crowd: 95, status: 'Peak' },
-    { time: '20:00', crowd: 80, status: 'High' },
-    { time: '21:00', crowd: 45, status: 'Moderate' }
-  ];
-
-  const getRecommendationColor = (recommendation) => {
-    switch (recommendation.toLowerCase()) {
-      case 'best': return 'bg-green-100 text-green-800 border-green-200';
-      case 'good': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'moderate': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'avoid': return 'bg-red-100 text-red-800 border-red-200';
+  const getRecommendationColor = (rec: string) => {
+    switch (rec) {
+      case 'Best': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'Good': return 'bg-green-100 text-green-800 border-green-200';
+      case 'Moderate': return 'bg-amber-100 text-amber-800 border-amber-200';
+      case 'Avoid': return 'bg-red-100 text-red-800 border-red-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
-  const getCrowdStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'low': return 'text-green-600';
-      case 'moderate': return 'text-yellow-600';
-      case 'high': return 'text-orange-600';
-      case 'peak': return 'text-red-600';
-      default: return 'text-gray-600';
-    }
+  const getTimeIcon = (time: string) => {
+    const hour = parseInt(time);
+    if (hour >= 5 && hour < 7) return <Sun className="h-3.5 w-3.5 text-amber-500" />;
+    if (hour >= 7 && hour < 16) return <Sun className="h-3.5 w-3.5 text-yellow-500" />;
+    if (hour >= 16 && hour < 19) return <Star className="h-3.5 w-3.5 text-orange-500" />;
+    return <Moon className="h-3.5 w-3.5 text-indigo-500" />;
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card>
+      <Card className="crowd-avoid-header-card">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingDown className="h-5 w-5 text-purple-600" />
-            Crowd Avoidance Guide - {currentTemple.name}
-          </CardTitle>
-          <CardDescription>
-            Smart recommendations to help you avoid crowds and plan the perfect visit
-          </CardDescription>
-        </CardHeader>
-      </Card>
-
-      {/* Quick Recommendations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Sun className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium text-green-800">Best Time Today</span>
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingDown className="h-5 w-5 text-purple-600" />
+                Crowd Avoidance Guide — {currentTemple?.name}
+              </CardTitle>
+              <CardDescription className="mt-1">
+                Smart recommendations based on real-time patterns & historical data
+              </CardDescription>
             </div>
-            <p className="font-bold text-green-900">{currentPattern.lowHours[0]}</p>
-            <p className="text-xs text-green-700">Expected crowd: 30%</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-blue-200 bg-blue-50">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-800">Best Day This Week</span>
+            <div className="flex gap-2">
+              <Button
+                variant={view === 'hourly' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setView('hourly')}
+                className={view === 'hourly' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+              >
+                <Clock className="h-4 w-4 mr-1.5" />
+                Today's Forecast
+              </Button>
+              <Button
+                variant={view === 'weekly' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setView('weekly')}
+                className={view === 'weekly' ? 'bg-purple-600 hover:bg-purple-700' : ''}
+              >
+                <Calendar className="h-4 w-4 mr-1.5" />
+                Best Day to Visit
+              </Button>
             </div>
-            <p className="font-bold text-blue-900">{currentPattern.bestVisitDays[0]}</p>
-            <p className="text-xs text-blue-700">Typically 35% crowd</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-purple-200 bg-purple-50">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Moon className="h-4 w-4 text-purple-600" />
-              <span className="text-sm font-medium text-purple-800">Best Season</span>
-            </div>
-            <p className="font-bold text-purple-900">Monsoon</p>
-            <p className="text-xs text-purple-700">Lowest yearly crowd</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-orange-200 bg-orange-50">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertCircle className="h-4 w-4 text-orange-600" />
-              <span className="text-sm font-medium text-orange-800">Avoid Today</span>
-            </div>
-            <p className="font-bold text-orange-900">{currentPattern.peakHours[1]}</p>
-            <p className="text-xs text-orange-700">Peak evening rush</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Hourly Forecast */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-purple-600" />
-            Today's Hourly Crowd Forecast
-          </CardTitle>
-          <CardDescription>Real-time predictions for the next 24 hours</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {hourlyForecast.map((hour, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <span className="font-medium">{hour.time}</span>
-                  <Badge variant="outline" className={getCrowdStatusColor(hour.status)}>
-                    {hour.status}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Progress value={hour.crowd} className="w-16 h-2" />
-                  <span className="text-sm text-gray-600">{hour.crowd}%</span>
-                </div>
-              </div>
-            ))}
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Weekly Forecast */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-purple-600" />
-            Weekly Crowd Forecast
-          </CardTitle>
-          <CardDescription>Plan your visit for the entire week</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {weeklyForecast.map((day, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="font-medium">{day.day}</span>
-                    <Badge className={getRecommendationColor(day.recommendation)}>
-                      {day.recommendation}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-gray-600">{day.reason}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Progress value={day.crowd} className="w-24 h-3" />
-                  <span className="font-medium text-gray-700">{day.crowd}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
       </Card>
 
-      {/* Festival Alerts */}
-      <Alert className="bg-red-50 border-red-200">
-        <Star className="h-4 w-4 text-red-600" />
-        <AlertDescription>
-          <strong>Festival Alert:</strong> During festivals like {currentPattern.festivalDays.join(', ')}, 
-          expect 200-300% higher crowds. Consider visiting 2-3 days before or after festival dates for a peaceful darshan.
+      {/* Best Time Recommendation */}
+      <Alert className="bg-emerald-50 border-emerald-200">
+        <Sparkles className="h-4 w-4 text-emerald-600" />
+        <AlertDescription className="text-emerald-800">
+          <strong>Best time to visit today:</strong> {bestHourly.time} ({bestHourly.crowd}% crowd)
+          {' • '}
+          <strong>Best day this week:</strong> {bestWeekly.day} ({bestWeekly.crowd}% average crowd)
+          {meta && ` • Temple open ${meta.dailyTimings.open} – ${meta.dailyTimings.close}`}
         </AlertDescription>
       </Alert>
 
-      {/* Seasonal Trends */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingDown className="h-5 w-5 text-purple-600" />
-            Seasonal Crowd Trends
-          </CardTitle>
-          <CardDescription>Historical data to help you plan long-term visits</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {Object.entries(currentPattern.seasonalTrends).map(([season, crowd]) => (
-              <div key={season} className="p-4 border rounded-lg">
-                <h4 className="font-medium capitalize mb-2">{season}</h4>
-                <Progress value={crowd} className="mb-2" />
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Average Crowd</span>
-                  <span className="font-medium">{crowd}%</span>
+      {/* Hourly View */}
+      {view === 'hourly' && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <BarChart3 className="h-5 w-5 text-purple-600" />
+              Hourly Crowd Forecast — Today
+            </CardTitle>
+            <CardDescription>
+              Crowd prediction based on time-of-day, day-of-week, and seasonal patterns
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Visual bar chart */}
+            <div className="crowd-bars-container mb-6">
+              {hourlyData.map((slot, idx) => {
+                const hourNum = parseInt(slot.time);
+                const isCurrentHour = hourNum === currentHour;
+                return (
+                  <div key={idx} className={`crowd-bar-item ${isCurrentHour ? 'crowd-bar-current' : ''}`}>
+                    <div className="crowd-bar-value">
+                      <span className="text-[10px] font-semibold text-gray-600">{slot.crowd}%</span>
+                    </div>
+                    <div className="crowd-bar-track">
+                      <div
+                        className={`crowd-bar-fill ${getBarColor(slot.crowd)}`}
+                        style={{ height: `${Math.max(4, slot.crowd)}%` }}
+                      />
+                    </div>
+                    <div className="crowd-bar-label">
+                      {getTimeIcon(slot.time)}
+                      <span className="text-[10px] text-gray-500">{slot.time}</span>
+                    </div>
+                    {isCurrentHour && (
+                      <div className="crowd-bar-now">NOW</div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Legend */}
+            <div className="flex items-center justify-center gap-4 text-xs text-gray-500 pt-2 border-t">
+              <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-emerald-500" /> Low (&lt;35%)</span>
+              <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-amber-400" /> Moderate (35-60%)</span>
+              <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-orange-400" /> High (60-80%)</span>
+              <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-500" /> Peak (&gt;80%)</span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Weekly View */}
+      {view === 'weekly' && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Calendar className="h-5 w-5 text-purple-600" />
+              Best Day to Visit — Weekly Analysis
+            </CardTitle>
+            <CardDescription>
+              Average crowd levels by day of week, adjusted for current season
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {weeklyData.map((day, idx) => {
+                const isToday = idx === new Date().getDay();
+                return (
+                  <div
+                    key={idx}
+                    className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
+                      isToday ? 'bg-purple-50/50 border-purple-200 shadow-sm' : 'bg-white border-gray-100 hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="w-20">
+                      <p className="font-semibold text-gray-900">{day.day.slice(0, 3)}</p>
+                      {isToday && <Badge className="bg-purple-100 text-purple-700 text-[10px] mt-0.5">Today</Badge>}
+                    </div>
+
+                    <div className="flex-1">
+                      <Progress value={day.crowd} className="h-3" />
+                    </div>
+
+                    <div className="w-14 text-right">
+                      <span className="font-bold text-lg">{day.crowd}%</span>
+                    </div>
+
+                    <Badge className={`min-w-[80px] justify-center ${getRecommendationColor(day.recommendation)}`}>
+                      {day.recommendation}
+                    </Badge>
+
+                    <div className="hidden md:block w-48">
+                      <p className="text-xs text-gray-500">{day.reason}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Aarti Timings */}
+      {meta && (
+        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200">
+          <CardContent className="p-5">
+            <h3 className="font-semibold text-amber-900 flex items-center gap-2 mb-3">
+              <Star className="h-5 w-5 text-amber-600" />
+              Aarti Schedule — {meta.name}
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {meta.dailyTimings.aarti.map((time, idx) => (
+                <div key={idx} className="flex items-center gap-2 px-4 py-2 bg-white/80 rounded-full border border-amber-200 shadow-sm">
+                  <Clock className="h-4 w-4 text-amber-600" />
+                  <span className="font-medium text-amber-900">{time}</span>
+                  <span className="text-xs text-amber-600">
+                    {idx === 0 ? 'Morning' : idx === meta.dailyTimings.aarti.length - 1 ? 'Evening' : 'Midday'}
+                  </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              ))}
+            </div>
+            <p className="text-xs text-amber-700 mt-3">
+              Peak crowd: 30-45 min before aarti. For shorter queues, arrive 15 min early or 30 min after.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Tips */}
+      <Alert className="bg-blue-50 border-blue-200">
+        <AlertCircle className="h-4 w-4 text-blue-600" />
+        <AlertDescription className="text-blue-800 text-sm">
+          <strong>Pro tips for a peaceful darshan:</strong> Visit on weekdays (Tue–Thu) during off-season (Apr–Jun). 
+          Early morning (5–6 AM) offers the shortest queues and most serene atmosphere. 
+          Avoid festival dates unless you plan to experience the celebrations.
+        </AlertDescription>
+      </Alert>
     </div>
   );
 };

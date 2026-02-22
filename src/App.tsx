@@ -4,57 +4,18 @@ import { toast, Toaster } from 'sonner';
 
 import PilgrimInterface from './components/pilgrim/PilgrimInterface';
 import AuthorityInterface from './components/authority/AuthorityInterface';
+import AuthorityLogin from './components/authority/AuthorityLogin';
 import RoleSelector from './components/RoleSelector';
-import { wsService } from './services/api';
+import { getAllTempleStates } from './services/templeDataService';
 
 function AppContent() {
   const [selectedTemple, setSelectedTemple] = useState('somnath');
-  const [currentInterface, setCurrentInterface] = useState(null); // null, 'pilgrim', 'authority'
-  
-  // Temple-specific crowd data for Gujarat's 4 major temples
-  const [templeData, setTempleData] = useState({
-    somnath: {
-      name: 'Somnath Temple',
-      location: 'Veraval, Gir Somnath',
-      zones: {
-        mainDarshan: { density: 45, waitTime: '15 min', status: 'moderate', name: 'Main Darshan Hall' },
-        garbhaGriha: { density: 78, waitTime: '25 min', status: 'high', name: 'Garbha Griha' },
-        pradakshina: { density: 23, waitTime: '8 min', status: 'low', name: 'Pradakshina Path' },
-        museum: { density: 12, waitTime: '5 min', status: 'low', name: 'Museum & Exhibition' }
-      }
-    },
-    dwarka: {
-      name: 'Dwarkadhish Temple',
-      location: 'Dwarka, Devbhumi Dwarka',
-      zones: {
-        mainDarshan: { density: 67, waitTime: '20 min', status: 'high', name: 'Main Darshan Hall' },
-        garbhaGriha: { density: 89, waitTime: '35 min', status: 'critical', name: 'Garbha Griha' },
-        pradakshina: { density: 34, waitTime: '12 min', status: 'moderate', name: 'Pradakshina Path' },
-        gomtiGhat: { density: 28, waitTime: '10 min', status: 'low', name: 'Gomti Ghat' }
-      }
-    },
-    ambaji: {
-      name: 'Ambaji Temple',
-      location: 'Ambaji, Banaskantha',
-      zones: {
-        mainDarshan: { density: 56, waitTime: '18 min', status: 'moderate', name: 'Main Darshan Hall' },
-        garbhaGriha: { density: 72, waitTime: '28 min', status: 'high', name: 'Garbha Griha' },
-        pradakshina: { density: 19, waitTime: '7 min', status: 'low', name: 'Pradakshina Path' },
-        gabbarHill: { density: 41, waitTime: '15 min', status: 'moderate', name: 'Gabbar Hill Path' }
-      }
-    },
-    pavagadh: {
-      name: 'Kalika Mata Temple',
-      location: 'Pavagadh, Panchmahal',
-      zones: {
-        mainDarshan: { density: 38, waitTime: '14 min', status: 'moderate', name: 'Main Darshan Hall' },
-        garbhaGriha: { density: 65, waitTime: '22 min', status: 'high', name: 'Garbha Griha' },
-        pradakshina: { density: 15, waitTime: '6 min', status: 'low', name: 'Pradakshina Path' },
-        ropeway: { density: 52, waitTime: '18 min', status: 'moderate', name: 'Ropeway Station' }
-      }
-    }
-  });
-  
+  const [currentInterface, setCurrentInterface] = useState<null | 'pilgrim' | 'authority' | 'authority-login'>(null);
+  const [authorityAuthenticated, setAuthorityAuthenticated] = useState(false);
+
+  // ── Real-time temple data from our data service ──
+  const [templeData, setTempleData] = useState(() => getAllTempleStates());
+
   const [events, setEvents] = useState([
     {
       id: 1,
@@ -65,59 +26,60 @@ function AppContent() {
     {
       id: 2,
       timestamp: new Date().toLocaleTimeString(),
-      message: '📱 Demo Mode: All bookings stored locally, real-time updates simulated',
+      message: '📡 Connected — Crowd data is computed from real-time temple patterns',
       type: 'system'
     }
   ]);
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState<any[]>([]);
 
-  // Simulate real-time crowd updates for selected temple (fallback if WebSocket fails)
+  // Check for existing authority session on mount
+  useEffect(() => {
+    const session = localStorage.getItem('authority_session');
+    if (session) {
+      try {
+        const parsed = JSON.parse(session);
+        // Session expires after 4 hours
+        const loginTime = new Date(parsed.loginTime).getTime();
+        if (Date.now() - loginTime < 4 * 60 * 60 * 1000) {
+          setAuthorityAuthenticated(true);
+        } else {
+          localStorage.removeItem('authority_session');
+        }
+      } catch {
+        localStorage.removeItem('authority_session');
+      }
+    }
+  }, []);
+
+  // ── Refresh crowd data every 30 seconds from the data service ──
   useEffect(() => {
     const interval = setInterval(() => {
-      setTempleData(prev => {
-        const currentTemple = prev[selectedTemple];
-        const zones = Object.keys(currentTemple.zones);
-        const randomZone = zones[Math.floor(Math.random() * zones.length)];
-        const currentZone = currentTemple.zones[randomZone];
-        
-        const newDensity = Math.max(0, Math.min(100, currentZone.density + (Math.random() - 0.5) * 20));
-        const newWaitTime = Math.ceil(newDensity * 0.4) + ' min';
-        let newStatus = 'low';
-        if (newDensity > 30) newStatus = 'moderate';
-        if (newDensity > 60) newStatus = 'high';
-        if (newDensity > 80) newStatus = 'critical';
+      const freshData = getAllTempleStates();
+      setTempleData(freshData);
 
-        const newEvent = {
-          id: Date.now(),
-          timestamp: new Date().toLocaleTimeString(),
-          message: `${currentTemple.name} - ${currentZone.name} density updated to ${Math.round(newDensity)}%`,
-          type: 'crowd'
-        };
+      // Generate a new event for the selected temple
+      const temple = freshData[selectedTemple];
+      if (temple) {
+        const zoneKeys = Object.keys(temple.zones);
+        const randomZone = zoneKeys[Math.floor(Math.random() * zoneKeys.length)];
+        const zone = temple.zones[randomZone];
 
-        setEvents(prev => [newEvent, ...prev.slice(0, 9)]);
-
-        return {
-          ...prev,
-          [selectedTemple]: {
-            ...currentTemple,
-            zones: {
-              ...currentTemple.zones,
-              [randomZone]: {
-                ...currentZone,
-                density: newDensity,
-                waitTime: newWaitTime,
-                status: newStatus
-              }
-            }
-          }
-        };
-      });
-    }, 10000); // Slower fallback updates
+        if (zone) {
+          const newEvent = {
+            id: Date.now(),
+            timestamp: new Date().toLocaleTimeString(),
+            message: `${temple.name} — ${zone.name}: Density ${Math.round(zone.density)}% (${zone.status})`,
+            type: 'crowd'
+          };
+          setEvents(prev => [newEvent, ...prev.slice(0, 14)]);
+        }
+      }
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [selectedTemple]);
 
-  const handleBooking = (bookingData) => {
+  const handleBooking = (bookingData: any) => {
     const newBooking = {
       id: `BK${Date.now()}`,
       ...bookingData,
@@ -125,34 +87,57 @@ function AppContent() {
       qrCode: `QR-${Date.now()}`,
       status: 'confirmed'
     };
-    
+
     setBookings(prev => [...prev, newBooking]);
-    
+
     const event = {
       id: Date.now(),
       timestamp: new Date().toLocaleTimeString(),
       message: `New darshan booking confirmed for ${bookingData.zone}`,
       type: 'booking'
     };
-    setEvents(prev => [event, ...prev.slice(0, 9)]);
-    
+    setEvents(prev => [event, ...prev.slice(0, 14)]);
+
     toast.success('Darshan booking confirmed! Check My Bookings for details.');
   };
 
-  const handleEmergency = (emergencyData) => {
+  const handleEmergency = (emergencyData: any) => {
     const event = {
       id: Date.now(),
       timestamp: new Date().toLocaleTimeString(),
       message: `🚨 Emergency Alert: ${emergencyData.type} - ${emergencyData.location}`,
       type: 'emergency'
     };
-    setEvents(prev => [event, ...prev.slice(0, 9)]);
+    setEvents(prev => [event, ...prev.slice(0, 14)]);
     toast.error('Emergency alert sent to authorities');
   };
 
   // Handle role selection
-  const handleRoleSelect = (role) => {
-    setCurrentInterface(role);
+  const handleRoleSelect = (role: 'pilgrim' | 'authority') => {
+    if (role === 'authority') {
+      if (authorityAuthenticated) {
+        setCurrentInterface('authority');
+      } else {
+        setCurrentInterface('authority-login');
+      }
+    } else {
+      setCurrentInterface('pilgrim');
+    }
+  };
+
+  // Handle authority login success
+  const handleAuthorityLoginSuccess = () => {
+    setAuthorityAuthenticated(true);
+    setCurrentInterface('authority');
+    toast.success('Welcome! Authority portal access granted.');
+  };
+
+  // Handle authority logout
+  const handleAuthorityLogout = () => {
+    setAuthorityAuthenticated(false);
+    localStorage.removeItem('authority_session');
+    setCurrentInterface(null);
+    toast.success('Logged out from Authority Portal.');
   };
 
   // Handle switching back to role selector
@@ -165,7 +150,17 @@ function AppContent() {
     return <RoleSelector onRoleSelect={handleRoleSelect} />;
   }
 
-  // Show authority interface (no authentication required)
+  // Show authority login screen
+  if (currentInterface === 'authority-login') {
+    return (
+      <AuthorityLogin
+        onLoginSuccess={handleAuthorityLoginSuccess}
+        onBack={handleBackToRoleSelector}
+      />
+    );
+  }
+
+  // Show authority interface (authenticated)
   if (currentInterface === 'authority') {
     return (
       <AuthorityInterface
@@ -174,7 +169,7 @@ function AppContent() {
         onTempleChange={setSelectedTemple}
         events={events}
         setEvents={setEvents}
-        onBackToRoleSelector={handleBackToRoleSelector}
+        onBackToRoleSelector={handleAuthorityLogout}
       />
     );
   }
@@ -199,14 +194,12 @@ function AppContent() {
   return null;
 }
 
-
-
 // Main App wrapper
 function App() {
   return (
     <>
       <AppContent />
-      <Toaster />
+      <Toaster richColors position="top-right" />
     </>
   );
 }

@@ -3554,3 +3554,527 @@ html {
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CUSTOM COMPONENTS — Temple Insight 360 Premium UI
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Role Selector Page ── */
+.role-selector-wrapper {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.role-hero-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.role-hero-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  transform: scale(1.05);
+}
+
+.role-hero-image.active {
+  opacity: 1;
+  animation: role-img-zoom 8s ease-in-out forwards;
+}
+
+@keyframes role-img-zoom {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.role-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 10, 40, 0.65) 0%,
+    rgba(15, 10, 40, 0.55) 40%,
+    rgba(15, 10, 40, 0.85) 100%
+  );
+  backdrop-filter: blur(1px);
+}
+
+.role-selector-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.role-language-bar {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.role-hero-text {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.role-live-badge {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #6ee7b7 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 0.8rem !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.role-live-dot {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.role-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #fff 0%, #e0d4ff 50%, #fcd9b0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.role-hero-tagline {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+.role-hero-subtitle {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.4rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.role-temple-pills {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+.role-temple-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-temple-pill.active {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 0 12px rgba(255,255,255,0.1);
+}
+
+.role-temple-pill:hover {
+  background: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.9);
+}
+
+.role-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 780px;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .role-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  .role-hero-title { font-size: 2rem; }
+  .role-hero-tagline { font-size: 0.95rem; }
+}
+
+.role-card {
+  background: rgba(255,255,255,0.95) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  border-radius: 1.2rem !important;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+
+.role-card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-card-icon-pilgrim {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+}
+
+.role-card-icon-authority {
+  background: linear-gradient(135deg, #ede9fe, #c4b5fd);
+}
+
+.role-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role-btn-pilgrim {
+  background: linear-gradient(135deg, #d97706, #b45309) !important;
+  border: none !important;
+  color: #fff !important;
+  transition: all 0.2s ease;
+}
+
+.role-btn-pilgrim:hover {
+  background: linear-gradient(135deg, #b45309, #92400e) !important;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35) !important;
+}
+
+.role-btn-authority {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+  border: none !important;
+  color: #fff !important;
+  transition: all 0.2s ease;
+}
+
+.role-btn-authority:hover {
+  background: linear-gradient(135deg, #6d28d9, #5b21b6) !important;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35) !important;
+}
+
+.role-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ── Authority Login ── */
+.authority-login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4c1d95 60%, #2e1065 100%);
+}
+
+.authority-login-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.authority-login-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+}
+
+.authority-login-orb-1 {
+  width: 400px;
+  height: 400px;
+  background: #7c3aed;
+  top: -100px;
+  right: -100px;
+  animation: orb-float 8s ease-in-out infinite;
+}
+
+.authority-login-orb-2 {
+  width: 300px;
+  height: 300px;
+  background: #a855f7;
+  bottom: -50px;
+  left: -50px;
+  animation: orb-float 10s ease-in-out infinite reverse;
+}
+
+.authority-login-orb-3 {
+  width: 200px;
+  height: 200px;
+  background: #c084fc;
+  top: 50%;
+  left: 50%;
+  animation: orb-float 6s ease-in-out infinite;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(30px, -30px); }
+  66% { transform: translate(-20px, 20px); }
+}
+
+.authority-login-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+}
+
+.authority-login-back {
+  color: rgba(255,255,255,0.7) !important;
+  margin-bottom: 1rem;
+}
+
+.authority-login-back:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.1) !important;
+}
+
+.authority-login-card {
+  border-radius: 1.3rem !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: rgba(255,255,255,0.97) !important;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.25) !important;
+  overflow: hidden;
+}
+
+.authority-login-icon-ring {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto;
+  border-radius: 1.2rem;
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(139,92,246,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.authority-login-icon-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authority-login-badge {
+  font-size: 0.65rem !important;
+  padding: 0.2rem 0.5rem !important;
+  border-radius: 999px !important;
+}
+
+.authority-login-btn {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease;
+}
+
+.authority-login-btn:hover {
+  box-shadow: 0 8px 25px rgba(124,58,237,0.4) !important;
+  transform: translateY(-1px);
+}
+
+.authority-login-btn:disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+.authority-login-spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ── Authority Dashboard Metric Cards ── */
+.authority-metric-card {
+  position: relative;
+  border-radius: 1rem !important;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.authority-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08) !important;
+}
+
+/* ── Authority Zone Monitoring ── */
+.authority-zone-item {
+  padding: 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid;
+  transition: box-shadow 0.2s ease;
+}
+
+.authority-zone-item:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+/* ── Crowd Bars (Hourly Forecast) ── */
+.crowd-bars-container {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 200px;
+  padding: 0.5rem 0;
+}
+
+.crowd-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+.crowd-bar-current {
+  background: rgba(124,58,237,0.06);
+  border-radius: 0.5rem;
+}
+
+.crowd-bar-value {
+  flex-shrink: 0;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.crowd-bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 24px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.crowd-bar-fill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s ease;
+  min-height: 2px;
+}
+
+.crowd-bar-label {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  margin-top: 4px;
+}
+
+.crowd-bar-now {
+  position: absolute;
+  bottom: -20px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #ede9fe;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── Temple Info ── */
+.temple-info-hero-card {
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+}
+
+.temple-info-stat-card {
+  border-radius: 0.8rem !important;
+  transition: transform 0.15s ease;
+}
+
+.temple-info-stat-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ── Temple Selector ── */
+.temple-selector-card {
+  border-radius: 0.9rem !important;
+}
+
+/* ── Smooth scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+/* ── Global body for Inter font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

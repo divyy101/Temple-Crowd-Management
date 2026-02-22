@@ -35,6 +35,14 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
   
   const t = (key: string) => getTranslation(language, key);
 
+  // Get session info
+  const sessionData = (() => {
+    try {
+      const stored = localStorage.getItem('authority_session');
+      return stored ? JSON.parse(stored) : null;
+    } catch { return null; }
+  })();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-white">
       {/* Header */}
@@ -63,11 +71,13 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 </SelectContent>
               </Select>
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">{t('authority.subtitle')}</p>
+                {sessionData && (
+                  <p className="text-sm font-medium text-gray-900">{sessionData.name}</p>
+                )}
                 <div className="flex gap-2">
                   <Badge variant="outline" className="bg-violet-50 text-violet-700 border-violet-200">
                     <Shield className="h-3 w-3 mr-1" />
-                    {t('authority.title')}
+                    {sessionData?.role || t('authority.title')}
                   </Badge>
                   <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                     <Activity className="h-3 w-3 mr-1" />
@@ -80,10 +90,10 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                   onClick={onBackToRoleSelector}
                   variant="outline"
                   size="sm"
-                  className="text-violet-600 border-violet-200 hover:bg-violet-50"
+                  className="text-red-600 border-red-200 hover:bg-red-50"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  {t('back')}
+                  Logout
                 </Button>
               </div>
             </div>

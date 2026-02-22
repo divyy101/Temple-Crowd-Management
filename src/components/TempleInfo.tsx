@@ -1,8 +1,9 @@
 import React from 'react';
-import { MapPin, Star, Clock, Users, Info } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { MapPin, Star, Clock, Users, Info, Globe, Landmark, ExternalLink, Phone, Sparkles, Calendar } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { TEMPLE_METADATA } from '../services/templeDataService';
 import { Language } from '../utils/translations';
 
 interface TempleInfoProps {
@@ -12,143 +13,201 @@ interface TempleInfoProps {
 }
 
 const TempleInfo: React.FC<TempleInfoProps> = ({ templeData, selectedTemple, language = 'en' }) => {
-  const templeInfo = {
-    somnath: {
-      description: 'First among 12 Jyotirlingas, one of the most sacred temples of Lord Shiva. Located on the western coast of Gujarat, it has been destroyed and rebuilt multiple times throughout history, symbolizing the eternal nature of faith.',
-      significance: 'Lord Shiva - First Jyotirlinga',
-      bestTime: 'October to March',
-      color: 'from-blue-500 to-blue-600',
-      icon: '🔱',
-      image: 'https://images.unsplash.com/photo-1735192683809-3fcd83233e19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxTb21uYXRoJTIwdGVtcGxlJTIwR3VqYXJhdCUyMEluZGlhfGVufDF8fHx8MTc1OTUxOTk5NXww&ixlib=rb-4.1.0&q=80&w=1080',
-      specialFeatures: ['First Jyotirlinga', 'Oceanfront Location', 'Sound & Light Show', 'Ancient Architecture']
-    },
-    dwarka: {
-      description: 'The legendary city of Lord Krishna, one of the Char Dham pilgrimage sites. This ancient city is believed to be Krishna\'s kingdom and is mentioned in various Hindu scriptures including the Mahabharata.',
-      significance: 'Lord Krishna - Char Dham',
-      bestTime: 'October to April',
-      color: 'from-yellow-500 to-orange-500',
-      icon: '🦚',
-      image: 'https://images.unsplash.com/photo-1711547979445-a72c87dfd004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxEd2Fya2ElMjB0ZW1wbGUlMjBLcmlzaG5hJTIwR3VqYXJhdHxlbnwxfHx8fDE3NTk1MTk5OTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      specialFeatures: ['Char Dham Site', 'Krishna\'s Kingdom', 'Gomti River', 'Archaeological Wonders']
-    },
-    ambaji: {
-      description: 'One of the 51 Shakti Peethas dedicated to Goddess Amba. Located in the Arasur hills near the Gujarat-Rajasthan border, it is believed that the heart of Sati fell here according to Hindu mythology.',
-      significance: 'Goddess Amba - Shakti Peetha',
-      bestTime: 'September to March',
-      color: 'from-red-500 to-pink-500',
-      icon: '🌺',
-      image: 'https://images.unsplash.com/photo-1652706698193-2cf5d8056afa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBbWJhamklMjB0ZW1wbGUlMjBHdWphcmF0JTIwTWF0YXxlbnwxfHx8fDE3NTk1MjAwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      specialFeatures: ['Shakti Peetha', 'Gabbar Hill Trek', 'Marble Architecture', 'Sacred Vishwa Kalash']
-    },
-    pavagadh: {
-      description: 'Perched atop Pavagadh hill, this UNESCO World Heritage site temple is dedicated to Goddess Kalika. The temple is accessible via ropeway and offers stunning panoramic views of the surrounding landscape.',
-      significance: 'Goddess Kalika - UNESCO Heritage',
-      bestTime: 'October to February',
-      color: 'from-green-500 to-emerald-500',
-      icon: '⛰️',
-      image: 'https://images.unsplash.com/photo-1652706698193-2cf5d8056afa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxQYXZhZ2FkaCUyMHRlbXBsZSUyMEthbGlrYSUyME1hdGElMjBHdWphcmF0fGVufDF8fHx8MTc1OTUyMDAwM3ww&ixlib=rb-4.1.0&q=80&w=1080',
-      specialFeatures: ['UNESCO Heritage Site', 'Ropeway Access', 'Panoramic Views', 'Historic Champaner']
-    }
-  };
+  const meta = TEMPLE_METADATA[selectedTemple];
+  const currentTemple = templeData[selectedTemple];
 
-  const temple = templeData[selectedTemple];
-  const info = templeInfo[selectedTemple];
-  
-  if (!temple || !info) return null;
-
-  const totalCrowd = Object.values(temple.zones).reduce((sum, zone) => sum + zone.density, 0) / 4;
+  if (!meta) return null;
 
   return (
-    <Card className="overflow-hidden">
-      <div className="relative h-64 overflow-hidden">
-        <ImageWithFallback
-          src={info.image}
-          alt={temple.name}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-        <div className="absolute bottom-4 left-4 text-white">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">{info.icon}</span>
-            <div>
-              <h2 className="text-2xl font-bold">{temple.name}</h2>
-              <p className="text-lg text-gray-200">{temple.location}</p>
+    <div className="space-y-5">
+      {/* Hero Image + Basic Info */}
+      <Card className="overflow-hidden temple-info-hero-card">
+        <div className="relative h-56 md:h-72">
+          <ImageWithFallback
+            src={meta.imageUrl}
+            alt={meta.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <div className="flex items-end justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-1">{meta.name}</h2>
+                <div className="flex items-center gap-2 text-white/80 text-sm">
+                  <MapPin className="h-4 w-4" />
+                  {meta.location}, {meta.district}, {meta.state}
+                </div>
+              </div>
+              <Badge className="bg-white/20 text-white backdrop-blur-md border-white/30">
+                <Star className="h-3 w-3 mr-1 fill-amber-400 text-amber-400" />
+                Sacred Site
+              </Badge>
             </div>
           </div>
         </div>
-        <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${info.color}`}></div>
+      </Card>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Card className="temple-info-stat-card">
+          <CardContent className="p-4 text-center">
+            <Landmark className="h-5 w-5 text-violet-600 mx-auto mb-1.5" />
+            <p className="text-xs font-medium text-gray-500">Deity</p>
+            <p className="text-sm font-semibold text-gray-900 mt-0.5">{meta.deity}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="temple-info-stat-card">
+          <CardContent className="p-4 text-center">
+            <Clock className="h-5 w-5 text-amber-600 mx-auto mb-1.5" />
+            <p className="text-xs font-medium text-gray-500">Open</p>
+            <p className="text-sm font-semibold text-gray-900 mt-0.5">
+              {meta.dailyTimings.open} – {meta.dailyTimings.close}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="temple-info-stat-card">
+          <CardContent className="p-4 text-center">
+            <Users className="h-5 w-5 text-emerald-600 mx-auto mb-1.5" />
+            <p className="text-xs font-medium text-gray-500">Avg. Daily</p>
+            <p className="text-sm font-semibold text-gray-900 mt-0.5">
+              {meta.averageDailyVisitors.toLocaleString()} visitors
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="temple-info-stat-card">
+          <CardContent className="p-4 text-center">
+            <Globe className="h-5 w-5 text-sky-600 mx-auto mb-1.5" />
+            <p className="text-xs font-medium text-gray-500">Architecture</p>
+            <p className="text-sm font-semibold text-gray-900 mt-0.5 line-clamp-2">{meta.architecture}</p>
+          </CardContent>
+        </Card>
       </div>
 
-      <CardContent className="p-6">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="flex items-center gap-2 mb-3">
-              <Info className="h-5 w-5 text-primary" />
-              About This Sacred Place
-            </h3>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              {info.description}
-            </p>
-            
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-yellow-500" />
-                <span className="font-medium">{info.significance}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-blue-500" />
-                <span>Best Visit Time: {info.bestTime}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-green-500" />
-                <span>Current Crowd Level: {Math.round(totalCrowd)}%</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-red-500" />
-                <span>{Object.keys(temple.zones).length} Darshan Zones Available</span>
-              </div>
-            </div>
+      {/* Significance & History */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Info className="h-5 w-5 text-violet-600" />
+            About {meta.name}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="p-4 bg-violet-50/50 rounded-xl border border-violet-100">
+            <p className="text-sm font-semibold text-violet-900 mb-1">Historical Significance</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{meta.significance}</p>
           </div>
 
-          <div>
-            <h3 className="mb-3">Special Features</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {info.specialFeatures.map((feature, index) => (
-                <Badge 
-                  key={index} 
-                  variant="secondary" 
-                  className="justify-center p-2 text-xs"
-                >
-                  {feature}
+          <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-100">
+            <p className="text-sm font-semibold text-amber-900 mb-1">Established</p>
+            <p className="text-sm text-gray-700">{meta.established}</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Aarti Timings */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Sparkles className="h-5 w-5 text-amber-600" />
+            Daily Aarti Schedule
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-3">
+            {meta.dailyTimings.aarti.map((time, idx) => (
+              <div key={idx} className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                <Clock className="h-4 w-4 text-amber-600" />
+                <span className="font-semibold text-amber-900">{time}</span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Upcoming Festivals */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Calendar className="h-5 w-5 text-rose-600" />
+            Major Festivals
+          </CardTitle>
+          <CardDescription>Plan ahead — expect higher crowds during festivals</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {meta.festivals.map((fest, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3.5 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-sm transition-shadow">
+                <div>
+                  <p className="font-semibold text-gray-900">{fest.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{fest.month}</p>
+                </div>
+                <Badge className={`text-xs ${
+                  fest.crowdMultiplier > 3 ? 'bg-red-100 text-red-700' :
+                  fest.crowdMultiplier > 2 ? 'bg-orange-100 text-orange-700' :
+                  'bg-amber-100 text-amber-700'
+                }`}>
+                  {fest.crowdMultiplier}x crowd
                 </Badge>
-              ))}
-            </div>
-
-            <div className="mt-6">
-              <h3 className="mb-3">Zone-wise Status</h3>
-              <div className="space-y-2">
-                {Object.entries(temple.zones).map(([zoneKey, zone]) => (
-                  <div key={zoneKey} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span className="text-sm font-medium">{zone.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-600">{zone.waitTime}</span>
-                      <Badge 
-                        variant={zone.status === 'critical' ? 'destructive' : 
-                               zone.status === 'high' ? 'default' : 
-                               zone.status === 'moderate' ? 'secondary' : 'outline'}
-                        className="text-xs"
-                      >
-                        {zone.status}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
+            ))}
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      {/* Nearby Attractions */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <MapPin className="h-5 w-5 text-emerald-600" />
+            Nearby Attractions
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {meta.nearbyAttractions.map((place, idx) => (
+              <Badge key={idx} variant="outline" className="px-3 py-1.5 text-sm bg-white border-gray-200 hover:bg-gray-50">
+                <MapPin className="h-3 w-3 mr-1.5 text-emerald-500" />
+                {place}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Contact & Links */}
+      <Card className="bg-gradient-to-r from-violet-50 to-purple-50 border-violet-200">
+        <CardContent className="p-5">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-violet-600" />
+              <span className="text-sm font-medium text-violet-900">{meta.contactNumber}</span>
+            </div>
+            <a
+              href={meta.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-violet-700 hover:text-violet-900 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Official Website
+            </a>
+            <a
+              href={`https://maps.google.com/?q=${meta.coordinates.lat},${meta.coordinates.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-violet-700 hover:text-violet-900 transition-colors"
+            >
+              <MapPin className="h-4 w-4" />
+              View on Google Maps
+            </a>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
