@@ -53,7 +53,7 @@ const TempleSelector: React.FC<TempleSelectorProps> = ({
               }`}
               onClick={() => onTempleChange(templeId)}
             >
-              <div className="relative h-28">
+              <div className="relative h-28 shrink-0">
                 <ImageWithFallback
                   src={meta.imageUrl}
                   alt={meta.name}
@@ -70,23 +70,23 @@ const TempleSelector: React.FC<TempleSelectorProps> = ({
                 )}
 
                 <div className="absolute bottom-2 left-2 right-2">
-                  <h4 className="text-white font-semibold text-sm leading-tight drop-shadow-md">
+                  <h4 className="text-white font-semibold text-xs sm:text-sm leading-tight drop-shadow-md line-clamp-1">
                     {language !== 'en' ? getTempleTranslation(language, templeId) || meta.name : meta.name}
                   </h4>
-                  <p className="text-white/70 text-[10px] flex items-center gap-1 mt-0.5">
-                    <MapPin className="h-2.5 w-2.5" />
-                    {meta.district}
+                  <p className="text-white/80 text-[10px] sm:text-[11px] flex items-center gap-1 mt-0.5 line-clamp-1">
+                    <MapPin className="h-2.5 w-2.5 shrink-0" />
+                    <span className="truncate">{meta.district}</span>
                   </p>
                 </div>
               </div>
 
-              <CardContent className="p-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                    <Clock className="h-3 w-3" />
+              <CardContent className="p-2 sm:p-2.5 flex-1 flex flex-col justify-center">
+                <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-1.5 xl:gap-0">
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-gray-500 whitespace-nowrap">
+                    <Clock className="h-3 w-3 shrink-0" />
                     {meta.dailyTimings.open} – {meta.dailyTimings.close}
                   </div>
-                  <Badge className={`text-[10px] px-1.5 py-0 ${crowdBg} ${crowdColor} border-0`}>
+                  <Badge className={`text-[9px] sm:text-[10px] px-1.5 py-0 ${crowdBg} ${crowdColor} border-0 self-start xl:self-auto shrink-0 w-max`}>
                     <Users className="h-2.5 w-2.5 mr-0.5" />
                     {avgCrowd}%
                   </Badge>

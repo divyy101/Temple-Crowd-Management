@@ -75,7 +75,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '06:30', close: '21:30', aarti: ['06:30', '10:30', '17:30', '19:30'] },
     averageDailyVisitors: 20000,
     peakCapacity: 6000,
-    imageUrl: 'https://images.unsplash.com/photo-1539650116574-75c0c6d636dc?auto=format&fit=crop&w=1024&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1596422846543-74c6fc1e4b11?auto=format&fit=crop&w=1024&q=80',
     websiteUrl: 'https://dwarkadhish.org',
     contactNumber: '+91-2892-234200',
     zones: [
@@ -137,7 +137,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '05:00', close: '20:00', aarti: ['05:30', '12:00', '18:30'] },
     averageDailyVisitors: 12000,
     peakCapacity: 4000,
-    imageUrl: 'https://images.unsplash.com/photo-1605106901227-991bd663255c?auto=format&fit=crop&w=1024&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1514222365922-26211516e537?auto=format&fit=crop&w=1024&q=80',
     websiteUrl: 'https://gujarattourism.com/pavagadh',
     contactNumber: '+91-2676-234456',
     zones: [
