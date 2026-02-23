@@ -120,11 +120,11 @@ const PilgrimInterface: React.FC<PilgrimInterfaceProps> = ({
             </TabsTrigger>
             <TabsTrigger value="map" className="flex items-center gap-2">
               <Map className="h-4 w-4" />
-              <span className="hidden sm:inline">{t('facilities')}</span>
+              <span className="hidden sm:inline">{t('navFacilities')}</span>
             </TabsTrigger>
             <TabsTrigger value="transport" className="flex items-center gap-2">
               <Truck className="h-4 w-4" />
-              <span className="hidden sm:inline">{t('transport')}</span>
+              <span className="hidden sm:inline">{t('navTransport')}</span>
             </TabsTrigger>
           </TabsList>
 

@@ -13,23 +13,23 @@ interface RoleSelectorProps {
 const templeImages = [
   {
     url: TEMPLE_METADATA.somnath.imageUrl,
-    name: 'Somnath Temple',
-    location: 'Veraval, Gujarat',
+    name: 'Somnath Jyotirlinga',
+    location: 'Prabhas Patan, Veraval',
   },
   {
     url: TEMPLE_METADATA.dwarka.imageUrl,
-    name: 'Dwarkadhish Temple',
+    name: 'Dwarkadhish Mandir',
     location: 'Dwarka, Gujarat',
   },
   {
     url: TEMPLE_METADATA.ambaji.imageUrl,
-    name: 'Ambaji Temple',
+    name: 'Ambaji Shakti Peeth',
     location: 'Banaskantha, Gujarat',
   },
   {
     url: TEMPLE_METADATA.pavagadh.imageUrl,
-    name: 'Kalika Mata Temple',
-    location: 'Pavagadh, Gujarat',
+    name: 'Kalika Mata Mandir',
+    location: 'Champaner, Panchmahal',
   },
 ];
 

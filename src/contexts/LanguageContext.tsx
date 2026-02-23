@@ -118,10 +118,10 @@ const translations = {
     'nav.crowdAvoidance': 'Crowd Avoidance',
 
     // Temples
-    'temple.somnath': 'Somnath Temple',
-    'temple.dwarka': 'Dwarkadhish Temple',
-    'temple.ambaji': 'Ambaji Temple',
-    'temple.pavagadh': 'Kalika Mata Temple',
+    'temple.somnath': 'Somnath Jyotirlinga',
+    'temple.dwarka': 'Dwarkadhish Mandir',
+    'temple.ambaji': 'Ambaji Shakti Peeth',
+    'temple.pavagadh': 'Kalika Mata Mandir',
     'temple.select': 'Select Temple',
     'temple.location': 'Location',
     'temple.info': 'Temple Information',

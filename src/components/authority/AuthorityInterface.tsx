@@ -107,7 +107,7 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
           <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 lg:w-auto lg:inline-flex bg-white border border-violet-200">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">{t('dashboard')}</span>
+              <span className="hidden sm:inline">{t('navDashboard')}</span>
             </TabsTrigger>
             <TabsTrigger value="heatmap" className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
@@ -148,7 +148,6 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 templeData={templeData}
                 selectedTemple={selectedTemple}
                 onTempleChange={onTempleChange}
-                language={language}
               />
             </TabsContent>
 
@@ -158,7 +157,6 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 selectedTemple={selectedTemple}
                 events={events}
                 setEvents={setEvents}
-                language={language}
               />
             </TabsContent>
 
@@ -167,7 +165,6 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 templeData={templeData}
                 selectedTemple={selectedTemple}
                 onTempleChange={onTempleChange}
-                language={language}
               />
             </TabsContent>
 
@@ -176,7 +173,6 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 templeData={templeData}
                 selectedTemple={selectedTemple}
                 onTempleChange={onTempleChange}
-                language={language}
               />
             </TabsContent>
 
@@ -185,7 +181,6 @@ const AuthorityInterface: React.FC<AuthorityInterfaceProps> = ({
                 templeData={templeData}
                 selectedTemple={selectedTemple}
                 events={events}
-                language={language}
               />
             </TabsContent>
           </div>

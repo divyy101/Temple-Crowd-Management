@@ -11,9 +11,9 @@ export const translations = {
     bookings: 'Bookings',
     assistance: 'Assistance',
     incidents: 'Incidents',
-    facilities: 'Facilities',
-    transport: 'Transport',
-    dashboard: 'Dashboard',
+    navFacilities: 'Facilities',
+    navTransport: 'Transport',
+    navDashboard: 'Dashboard',
     heatMap: 'Heat Map',
     alerts: 'Alerts',
     resources: 'Resources',
@@ -23,10 +23,10 @@ export const translations = {
     
     // Temple names
     temples: {
-      somnath: 'Somnath Temple',
-      dwarka: 'Dwarkadhish Temple',
-      ambaji: 'Ambaji Temple',
-      pavagadh: 'Kalika Mata Temple'
+      somnath: 'Somnath Jyotirlinga',
+      dwarka: 'Dwarkadhish Mandir',
+      ambaji: 'Ambaji Shakti Peeth',
+      pavagadh: 'Kalika Mata Mandir'
     },
     
     // Zone names
@@ -376,9 +376,9 @@ export const translations = {
     bookings: 'बुकिंग',
     assistance: 'सहायता',
     incidents: 'घटनाएं',
-    facilities: 'सुविधाएं',
-    transport: 'परिवहन',
-    dashboard: 'डैशबोर्ड',
+    navFacilities: 'सुविधाएं',
+    navTransport: 'परिवहन',
+    navDashboard: 'डैशबोर्ड',
     heatMap: 'हीट मैप',
     alerts: 'अलर्ट',
     resources: 'संसाधन',
@@ -741,9 +741,9 @@ export const translations = {
     bookings: 'બુકિંગ',
     assistance: 'સહાયતા',
     incidents: 'ઘટનાઓ',
-    facilities: 'સુવિધાઓ',
-    transport: 'પરિવહન',
-    dashboard: 'ડેશબોર્ડ',
+    navFacilities: 'સુવિધાઓ',
+    navTransport: 'પરિવહન',
+    navDashboard: 'ડેશબોર્ડ',
     heatMap: 'હીટ મેપ',
     alerts: 'અલર્ટ',
     resources: 'સંસાધનો',

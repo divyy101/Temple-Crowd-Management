@@ -21,10 +21,10 @@ const FacilitiesMap: React.FC<FacilitiesMapProps> = ({ selectedTemple, templeDat
 
   // Temple-specific coordinates and facilities
   const templeCoordinates = {
-    somnath: { lat: 20.8880, lng: 70.4011, name: 'Somnath Temple' },
-    dwarka: { lat: 22.2394, lng: 68.9678, name: 'Dwarkadhish Temple' },
-    ambaji: { lat: 24.2420, lng: 72.8347, name: 'Ambaji Temple' },
-    pavagadh: { lat: 22.4669, lng: 73.5339, name: 'Kalika Mata Temple' }
+    somnath: { lat: 20.8880, lng: 70.4011, name: 'Somnath Jyotirlinga' },
+    dwarka: { lat: 22.2394, lng: 68.9678, name: 'Dwarkadhish Mandir' },
+    ambaji: { lat: 24.2420, lng: 72.8347, name: 'Ambaji Shakti Peeth' },
+    pavagadh: { lat: 22.4669, lng: 73.5339, name: 'Kalika Mata Mandir' }
   };
 
   const currentCoords = templeCoordinates[selectedTemple];
