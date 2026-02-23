@@ -32,7 +32,7 @@ export interface TempleMetadata {
 export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
   somnath: {
     id: 'somnath',
-    name: 'Somnath Jyotirlinga',
+    name: '1. Somnath Jyotirlinga',
     deity: 'Lord Shiva (Jyotirlinga)',
     location: 'Prabhas Patan, Veraval',
     district: 'Gir Somnath',
@@ -44,7 +44,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '06:00', close: '21:00', aarti: ['07:00', '12:00', '19:00'] },
     averageDailyVisitors: 25000,
     peakCapacity: 8000,
-    imageUrl: '/images/somnath.jpg',
+    imageUrl: '/images/somnath.jpeg',
     websiteUrl: 'https://somnath.org',
     contactNumber: '+91-2876-231042',
     zones: [
@@ -63,7 +63,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
   },
   dwarka: {
     id: 'dwarka',
-    name: 'Dwarkadhish Mandir',
+    name: '2. Dwarkadhish Mandir',
     deity: 'Lord Krishna (Dwarkadhish)',
     location: 'Dwarka',
     district: 'Devbhumi Dwarka',
@@ -75,7 +75,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '06:30', close: '21:30', aarti: ['06:30', '10:30', '17:30', '19:30'] },
     averageDailyVisitors: 20000,
     peakCapacity: 6000,
-    imageUrl: '/images/dwarka.jpg',
+    imageUrl: '/images/dwarka.jpeg',
     websiteUrl: 'https://dwarkadhish.org',
     contactNumber: '+91-2892-234200',
     zones: [
@@ -94,7 +94,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
   },
   ambaji: {
     id: 'ambaji',
-    name: 'Ambaji Shakti Peeth',
+    name: '3. Ambaji Shakti Peeth',
     deity: 'Goddess Amba (Shakti Peetha)',
     location: 'Ambaji',
     district: 'Banaskantha',
@@ -106,7 +106,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '07:00', close: '20:30', aarti: ['07:00', '12:00', '19:30'] },
     averageDailyVisitors: 15000,
     peakCapacity: 5000,
-    imageUrl: '/images/ambaji.jpg',
+    imageUrl: '/images/ambaji.jpeg',
     websiteUrl: 'https://ambajitemple.in',
     contactNumber: '+91-2749-262240',
     zones: [
@@ -125,7 +125,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
   },
   pavagadh: {
     id: 'pavagadh',
-    name: 'Kalika Mata Mandir',
+    name: '4. Kalika Mata Mandir',
     deity: 'Goddess Kalika (Mahakali)',
     location: 'Pavagadh Hill, Champaner',
     district: 'Panchmahal',
@@ -137,7 +137,7 @@ export const TEMPLE_METADATA: Record<string, TempleMetadata> = {
     dailyTimings: { open: '05:00', close: '20:00', aarti: ['05:30', '12:00', '18:30'] },
     averageDailyVisitors: 12000,
     peakCapacity: 4000,
-    imageUrl: '/images/pavagadh.jpg',
+    imageUrl: '/images/kalikamata.jpeg',
     websiteUrl: 'https://gujarattourism.com/pavagadh',
     contactNumber: '+91-2676-234456',
     zones: [

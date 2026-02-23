@@ -23,10 +23,10 @@ export const translations = {
     
     // Temple names
     temples: {
-      somnath: 'Somnath Jyotirlinga',
-      dwarka: 'Dwarkadhish Mandir',
-      ambaji: 'Ambaji Shakti Peeth',
-      pavagadh: 'Kalika Mata Mandir'
+      somnath: '1. Somnath Jyotirlinga',
+      dwarka: '2. Dwarkadhish Mandir',
+      ambaji: '3. Ambaji Shakti Peeth',
+      pavagadh: '4. Kalika Mata Mandir'
     },
     
     // Zone names
@@ -388,10 +388,10 @@ export const translations = {
     
     // Temple names
     temples: {
-      somnath: 'सोमनाथ मंदिर',
-      dwarka: 'द्वारकाधीश मंदिर',
-      ambaji: 'अम्बाजी मंदिर',
-      pavagadh: 'कालिका माता मंदिर'
+      somnath: '1. सोमनाथ ज्योतिर्लिंग',
+      dwarka: '2. द्वारकाधीश मंदिर',
+      ambaji: '3. अंबाजी शक्तिपीठ',
+      pavagadh: '4. कालिका माता मंदिर'
     },
     
     // Zone names
@@ -753,10 +753,10 @@ export const translations = {
     
     // Temple names
     temples: {
-      somnath: 'સોમનાથ મંદિર',
-      dwarka: 'દ્વારકાધીશ મંદિર',
-      ambaji: 'અંબાજી મંદિર',
-      pavagadh: 'કાલિકા માતા મંદિર'
+      somnath: '1. સોમનાથ જ્યોતિર્લિંગ',
+      dwarka: '2. દ્વારકાધીશ મંદિર',
+      ambaji: '3. અંબાજી શક્તિપીઠ',
+      pavagadh: '4. કાલિકા માતા મંદિર'
     },
     
     // Zone names

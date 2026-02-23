@@ -15,35 +15,35 @@ export const API_CONFIG = {
 export const TEMPLES = {
   somnath: {
     id: 'somnath',
-    name: 'Somnath Temple',
+    name: '1. Somnath Jyotirlinga',
     location: 'Veraval, Gir Somnath',
     coordinates: { lat: 20.8880, lng: 70.4013 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'museum'],
-    image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&h=600&q=80',
+    image: '/images/somnath.jpeg',
   },
   dwarka: {
     id: 'dwarka',
-    name: 'Dwarkadhish Temple',
+    name: '2. Dwarkadhish Mandir',
     location: 'Dwarka, Devbhumi Dwarka',
     coordinates: { lat: 22.2395, lng: 68.9685 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'gomtiGhat'],
-    image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d636dc?auto=format&fit=crop&w=800&h=600&q=80',
+    image: '/images/dwarka.jpeg',
   },
   ambaji: {
     id: 'ambaji',
-    name: 'Ambaji Temple',
+    name: '3. Ambaji Shakti Peeth',
     location: 'Ambaji, Banaskantha',
     coordinates: { lat: 24.3309, lng: 72.8431 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'gabbarHill'],
-    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&h=600&q=80',
+    image: '/images/ambaji.jpeg',
   },
   pavagadh: {
     id: 'pavagadh',
-    name: 'Kalika Mata Temple',
+    name: '4. Kalika Mata Mandir',
     location: 'Pavagadh, Panchmahal',
     coordinates: { lat: 22.4839, lng: 73.5316 },
     zones: ['mainDarshan', 'garbhaGriha', 'pradakshina', 'ropeway'],
-    image: 'https://images.unsplash.com/photo-1605106901227-991bd663255c?auto=format&fit=crop&w=800&h=600&q=80',
+    image: '/images/kalikamata.jpeg',
   },
 } as const;
 
@@ -108,7 +108,7 @@ export const MOCK_DATA = {
       id: 'BK1234567890',
       booking_id: 'BK1234567890',
       temple_id: 'somnath',
-      temple_name: 'Somnath Temple',
+      temple_name: '1. Somnath Jyotirlinga',
       zone: 'mainDarshan',
       booking_date: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
       time_slot: '08:00-10:00',
@@ -124,7 +124,7 @@ export const MOCK_DATA = {
   SAMPLE_CROWD_DATA: {
     somnath: {
       temple_id: 'somnath',
-      temple_name: 'Somnath Temple',
+      temple_name: '1. Somnath Jyotirlinga',
       zones: [
         {
           zone_id: 'mainDarshan',

@@ -118,10 +118,10 @@ const translations = {
     'nav.crowdAvoidance': 'Crowd Avoidance',
 
     // Temples
-    'temple.somnath': 'Somnath Jyotirlinga',
-    'temple.dwarka': 'Dwarkadhish Mandir',
-    'temple.ambaji': 'Ambaji Shakti Peeth',
-    'temple.pavagadh': 'Kalika Mata Mandir',
+    'temple.somnath': '1. Somnath Jyotirlinga',
+    'temple.dwarka': '2. Dwarkadhish Mandir',
+    'temple.ambaji': '3. Ambaji Shakti Peeth',
+    'temple.pavagadh': '4. Kalika Mata Mandir',
     'temple.select': 'Select Temple',
     'temple.location': 'Location',
     'temple.info': 'Temple Information',
@@ -305,10 +305,10 @@ const translations = {
     'nav.crowdAvoidance': 'भीड़ से बचाव',
 
     // Temples
-    'temple.somnath': 'सोमनाथ मंदिर',
-    'temple.dwarka': 'द्वारकाधीश मंदिर',
-    'temple.ambaji': 'अंबाजी मंदिर',
-    'temple.pavagadh': 'कालिका माता मंदिर',
+    'temple.somnath': '1. सोमनाथ ज्योतिर्लिंग',
+    'temple.dwarka': '2. द्वारकाधीश मंदिर',
+    'temple.ambaji': '3. अंबाजी शक्तिपीठ',
+    'temple.pavagadh': '4. कालिका माता मंदिर',
     'temple.select': 'मंदिर चुनें',
     'temple.location': 'स्थान',
     'temple.info': 'मंदिर की जानकारी',
@@ -492,10 +492,10 @@ const translations = {
     'nav.crowdAvoidance': 'ભીડ ટાળવું',
 
     // Temples
-    'temple.somnath': 'સોમનાથ મંદિર',
-    'temple.dwarka': 'દ્વારકાધીશ મંદિર',
-    'temple.ambaji': 'અંબાજી મંદિર',
-    'temple.pavagadh': 'કાલિકા માતા મંદિર',
+    'temple.somnath': '1. સોમનાથ જ્યોતિર્લિંગ',
+    'temple.dwarka': '2. દ્વારકાધીશ મંદિર',
+    'temple.ambaji': '3. અંબાજી શક્તિપીઠ',
+    'temple.pavagadh': '4. કાલિકા માતા મંદિર',
     'temple.select': 'મંદિર પસંદ કરો',
     'temple.location': 'સ્થળ',
     'temple.info': 'મંદિરની માહિતી',
